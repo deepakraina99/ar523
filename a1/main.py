@@ -83,6 +83,13 @@ if __name__ == "__main__":
     plane = p.loadURDF("plane.urdf")
     flags = p.URDF_USE_INERTIA_FROM_FILE
 
+    robo_base = p.loadURDF(os.path.join(assets_dir, "ur5_base.urdf"),
+    basePosition=[0, 0, 0.18],
+    baseOrientation=p.getQuaternionFromEuler([0, 0, 0]),
+    flags=flags,
+    useFixedBase=True
+    )
+
     ur5_robo = p.loadURDF(os.path.join(assets_dir, "ur5.urdf"),
         basePosition=[0, 0, 0.38],
         baseOrientation=p.getQuaternionFromEuler([0, 0, 0]),
