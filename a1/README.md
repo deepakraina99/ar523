@@ -15,7 +15,7 @@ The assignment has 6 exercises:
 
 * **Part 1**: RRT in Joint Space
 * **Part 2**: BiRRT in Joint space
-* **Part 3**: BiRRT in Task space
+* **Part 3**: RRT in Task space
 * **Part 4**: BiRRT in Task space
 * **Part 5**: Analysis and Comparison
 * **Part 6**: Evaluation on unseen environment
