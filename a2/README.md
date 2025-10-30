@@ -1,4 +1,4 @@
-## Assignment 1: Force control of a robotic arm
+## Assignment 2: Force control of a robotic arm
 
 ## Overview:  
 This assignment focuses on implementing and analyzing force control strategies for robotic manipulators. You will explore admittance and impedance control schemes.
