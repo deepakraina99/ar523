@@ -35,4 +35,4 @@ For **all parts**, you are expected to deliver the code implementation
 - Python 3.8+  
 - [PyBullet](https://pybullet.org): Install using `pip install pybullet`
 - NumPy 
-- OpenCV
+- OpenCV: Install using `pip install opencv-python` and `pip install opencv-contrib-python`
