@@ -7,7 +7,7 @@ This assignment focuses on implementing and analyzing vision-based control strat
 
 The simulation environment is PyBullet, which provides realistic kinematics and dynamic utilities for a robotic along with real-time camera images. 
 <p align="center">
-  <img src="env.png" alt="Simulation Environment" width="600"/>
+  <img src="env.jpg" alt="Simulation Environment" width="600"/>
 </p>
 
 ### Exercises  
