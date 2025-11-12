@@ -9,11 +9,11 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 1.57"/>
       <geometry>
-        <mesh filename="/visual/obj/ar_marker_box.obj" scale="0.5 0.5 0.5"/>
+        <mesh filename="/visual/ar_marker_box.obj" scale="0.5 0.5 0.5"/>
       </geometry>
       <material name="Material">
         <color rgba="1 1 1 1"/>
-        <texture filename="C:\\Users\\Acer\Desktop\\Assignment_3\\texture\\ar_marker_box.png"/>
+        <texture filename="/texture/ar_marker_box.png"/>
       </material>
     </visual>
     <collision>

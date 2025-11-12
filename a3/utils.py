@@ -69,19 +69,19 @@ def detect_aruco_markers(frame, camera_matrix, dist_coeffs, marker_size=0.10):
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-    # dictionary (compat safe)
+    # Dictionary setup
     if hasattr(cv2.aruco, "getPredefinedDictionary"):
         aruco_dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50)
     else:
         aruco_dict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_4X4_50)
 
-    # parameters compatibility
+    # Detector parameters (compatibility)
     if hasattr(cv2.aruco, "DetectorParameters_create"):
         parameters = cv2.aruco.DetectorParameters_create()
     else:
         parameters = cv2.aruco.DetectorParameters()
 
-    # Use ArucoDetector if available for new API; else use detectMarkers
+    # Detection
     if hasattr(cv2.aruco, "ArucoDetector"):
         detector = cv2.aruco.ArucoDetector(aruco_dict, parameters)
         corners, ids, _ = detector.detectMarkers(gray)
@@ -90,27 +90,23 @@ def detect_aruco_markers(frame, camera_matrix, dist_coeffs, marker_size=0.10):
 
     if ids is not None and len(ids) > 0:
         for i, marker_id in enumerate(ids.flatten()):
-            # Draw marker polygon
             cv2.aruco.drawDetectedMarkers(frame_out, [corners[i]], np.array([[marker_id]]))
-
-            # Pose estimation
             rvecs, tvecs, _ = cv2.aruco.estimatePoseSingleMarkers(
                 [corners[i]], marker_size, camera_matrix, dist_coeffs
             )
             rvec, tvec = rvecs[0][0], tvecs[0][0]
 
-            # --- Get corners ---
+            # Get corners
             pts = corners[i][0]
-            top_left     = tuple(map(int, pts[0]))
-            top_right    = tuple(map(int, pts[1]))
+            top_left = tuple(map(int, pts[0]))
+            top_right = tuple(map(int, pts[1]))
             bottom_right = tuple(map(int, pts[2]))
-            bottom_left  = tuple(map(int, pts[3]))
+            bottom_left = tuple(map(int, pts[3]))
 
-            # --- Compute center ---
-            cx = float(np.mean(pts[:, 0]))
-            cy = float(np.mean(pts[:, 1]))
+            # Compute center
+            cx, cy = float(np.mean(pts[:, 0])), float(np.mean(pts[:, 1]))
 
-            # --- Print all info ---
+            # Print information
             print(f"\nMarker ID: {marker_id}")
             print(f"  Center:       ({cx:.1f}, {cy:.1f})")
             print(f"  Top Left:     {top_left}")
@@ -118,26 +114,24 @@ def detect_aruco_markers(frame, camera_matrix, dist_coeffs, marker_size=0.10):
             print(f"  Bottom Right: {bottom_right}")
             print(f"  Bottom Left:  {bottom_left}")
 
-            # --- Draw colored circles for each corner ---
-            cv2.circle(frame_out, top_left, 4, (255, 0, 0), -1)       # Blue
-            cv2.circle(frame_out, top_right, 4, (0, 255, 0), -1)      # Green
-            cv2.circle(frame_out, bottom_right, 4, (0, 0, 255), -1)   # Red
-            cv2.circle(frame_out, bottom_left, 4, (255, 255, 0), -1)  # Cyan
+            # Draw corner markers
+            cv2.circle(frame_out, top_left, 4, (255, 0, 0), -1)
+            cv2.circle(frame_out, top_right, 4, (0, 255, 0), -1)
+            cv2.circle(frame_out, bottom_right, 4, (0, 0, 255), -1)
+            cv2.circle(frame_out, bottom_left, 4, (255, 255, 0), -1)
 
-            # --- Draw crosshair around center (±50 px) ---
+            # Crosshair and axes
             cv2.line(frame_out, (int(cx - 50), int(cy)), (int(cx + 50), int(cy)), (0, 255, 0), 2)
             cv2.line(frame_out, (int(cx), int(cy - 50)), (int(cx), int(cy + 50)), (0, 255, 0), 2)
-
-            # --- Draw axes and label ---
             cv2.drawFrameAxes(frame_out, camera_matrix, dist_coeffs, rvec, tvec, marker_size * 0.5)
             cv2.putText(frame_out, f"ID {marker_id} z={tvec[2]:.2f}m",
                         (int(cx - 40), int(cy - 10)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2)
 
             detections.append((int(marker_id), np.array(tvec), np.array(rvec), (cx, cy)))
 
-    # draw image center marker (red cross)
+    # Draw image center
+    image_height, image_width = frame.shape[:2]
     cv2.drawMarker(frame_out, (image_width // 2, image_height // 2), (0, 0, 255),
                    markerType=cv2.MARKER_CROSS, markerSize=20, thickness=2)
 
     return detections, frame_out
-
