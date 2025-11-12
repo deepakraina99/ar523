@@ -24,8 +24,7 @@ For **Part 3**, the goal is to control the robot end-effector so that it reaches
 
 For **Part 4**, extend your IBVS implementation to track a moving object.
 
-For **all parts**, you are expected to deliver the following:
-    • Code implementation
+For **all parts**, you are expected to deliver the code implementation
 
 #### Extra Credits
 * Implement occlusion handling using robust estimation or filtering.
