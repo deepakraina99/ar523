@@ -29,6 +29,34 @@ def load_box(position, orientation=(0,0,0,1), mass=1., dimensions=(1.,1.,1.), co
                             baseOrientation=p.getQuaternionFromEuler((0.01,0,0)))
     return box
 
+def load_mesh(filename, position, orientation=(0, 0, 0, 1), mass=1., scale=(1., 1., 1.),
+              color=None, with_collision=True, flags=None, *args, **kwargs):
+    kwargs = {}
+    if flags is not None:
+        kwargs['flags'] = flags
+    # create collision shape if specified
+    collision_shape = None
+    if with_collision:
+        collision_shape = p.createCollisionShape(p.GEOM_MESH, fileName=filename, meshScale=scale,
+                                                        **kwargs)
+    if color is not None:
+        kwargs['rgbaColor'] = color
+    # create visual shape
+    visual_shape = p.createVisualShape(p.GEOM_MESH, fileName=filename, meshScale=scale, **kwargs)
+    # create body
+    if with_collision:
+        mesh = p.createMultiBody(baseMass=mass,
+                                        baseCollisionShapeIndex=collision_shape,
+                                        baseVisualShapeIndex=visual_shape,
+                                        basePosition=position,
+                                        baseOrientation=orientation)
+    else:
+        mesh = p.createMultiBody(baseMass=mass,
+                                        baseVisualShapeIndex=visual_shape,
+                                        basePosition=position,
+                                        baseOrientation=orientation)
+    return mesh
+    
 def create_world(asset_dir):
     """
     Setup the simulation environment with plane, table, and a visual marker.
@@ -38,7 +66,8 @@ def create_world(asset_dir):
     p.setRealTimeSimulation(0)
 
     p.loadURDF(os.path.join(asset_dir, 'plane', 'plane.urdf'))
-    load_box(position=np.array([0.6, 0., 0.25]), dimensions=(0.7, 1, 0.5), mass=0)
+    # load_box(position=np.array([0.6, 0., 0.25]), dimensions=(0.7, 1, 0.5), mass=0)
+    load_mesh(filename=os.path.join(asset_dir, 'box_slanted.obj'), position=np.array([0.3, 0, 0.25]), orientation=p.getQuaternionFromEuler([0, 0, np.pi/2]), mass=0)
 
 if __name__ == "__main__":
     asset_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'assets')

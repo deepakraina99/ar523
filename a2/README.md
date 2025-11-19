@@ -1,5 +1,47 @@
 ## Assignment 2: Force control of a robotic arm
 
+
+### Testing Instructions
+
+1. Download `box_slanted.obj` from assests folder and copy the `box_slanted.obj` in this directory in your local repository: `'/assets/box_slanted.obj'`.
+
+2. Comment this line in your code in the `create_world` function: 
+`load_box(position=np.array([0.6, 0., 0.25]), dimensions=(0.7, 1, 0.5), mass=0)`
+
+3. Add this line in your code in the `create_world` function: `load_mesh(filename=os.path.join(asset_dir, 'box_slanted.obj'), position=np.array([0.3, 0, 0.25]), orientation=p.getQuaternionFromEuler([0, 0, np.pi/2]), mass=0)`
+
+4. Add this function in `main.py`
+```python
+def load_mesh(filename, position, orientation=(0, 0, 0, 1), mass=1., scale=(1., 1., 1.),
+              color=None, with_collision=True, flags=None, *args, **kwargs):
+    kwargs = {}
+    if flags is not None:
+        kwargs['flags'] = flags
+    # create collision shape if specified
+    collision_shape = None
+    if with_collision:
+        collision_shape = p.createCollisionShape(p.GEOM_MESH, fileName=filename, meshScale=scale,
+                                                        **kwargs)
+    if color is not None:
+        kwargs['rgbaColor'] = color
+    # create visual shape
+    visual_shape = p.createVisualShape(p.GEOM_MESH, fileName=filename, meshScale=scale, **kwargs)
+    # create body
+    if with_collision:
+        mesh = p.createMultiBody(baseMass=mass,
+                                        baseCollisionShapeIndex=collision_shape,
+                                        baseVisualShapeIndex=visual_shape,
+                                        basePosition=position,
+                                        baseOrientation=orientation)
+    else:
+        mesh = p.createMultiBody(baseMass=mass,
+                                        baseVisualShapeIndex=visual_shape,
+                                        basePosition=position,
+                                        baseOrientation=orientation)
+    return mesh`
+```
+
+
 ## Overview:  
 This assignment focuses on implementing and analyzing force control strategies for robotic manipulators. You will explore admittance and impedance control schemes.
 

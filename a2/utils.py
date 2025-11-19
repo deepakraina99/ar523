@@ -69,3 +69,4 @@ def force_torque_sensing(body_id, joint_ids):
     if isinstance(joint_ids, int):
         return np.asarray(p.getJointState(body_id, joint_ids)[2])
     return np.asarray([state[2] for state in p.getJointStates(body_id, joint_ids)])
+    
