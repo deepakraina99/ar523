@@ -1,11 +1,11 @@
 ## Assignment 4: Learning-based control of a robotic arm
 
 ## Overview:  
-This assignment focuses on implementing learning-based control strategies for robotic manipulators. You will train an agent to perform target-reaching and obstacle avoidance using either: Reinforcement Learning (RL) when an agent learns through trial-and-error interactions and Imitation Learning (IL) when an agent learns from demonstrations provided by an expert controller.
+This assignment focuses on implementing learning-based control strategies for robotic manipulators. **You will train a robotic arm to perform target-reaching and obstacle avoidance** using : Reinforcement Learning (RL) when robotic arm learns through trial-and-error interactions and Imitation Learning (IL) when robotic arm learns from demonstrations provided by an expert controller.
 
 ## Simulation Environment  
 
-You will work with a custom 3-link planar robotic arm environment (Fig. 1). 
+You will work with a custom 3-link planar robotic arm environment in python (Fig. 1). 
 
 <p align="center">
   <img src="env.png" alt="Simulation Environment" width="600"/>
@@ -14,8 +14,8 @@ You will work with a custom 3-link planar robotic arm environment (Fig. 1).
 ### Exercises  
 The assignment has 4 exercises:
 
-* **Part 1**: Train an IL agent
-* **Part 2**: Train an RL agent
+* **Part 1**: Train an IL model
+* **Part 2**: Train a RL model 
 * **Part 3**: Analysis and Comparison
 * **Part 4**: Evaluation on unseen environment
 	
